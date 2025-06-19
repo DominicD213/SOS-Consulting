@@ -32,7 +32,7 @@ long encoder3Count = 0;
 
 // ========= Centralized Error Handler =========
 void errorHalt(const String& msg) {
-  Serial.print("Error");
+  Serial.print("Error: ");
   Serial.println(msg);
   while (true);
 }
@@ -42,23 +42,23 @@ void setup() {
   Serial.setTimeout(500);
   delay(500);  // Wait for Serial to initialize
 
-  Serial.println("🔧 Initializing...");
+  Serial.println("\xF0\x9F\x94\xA7 Initializing...");
 
   // I2C check
   Wire.begin();
-  Wire.beginTransmission(0x20); // MCP23017 default address
+  Wire.beginTransmission(0x27); // Updated to Waveshare default address
   if (Wire.endTransmission() != 0) {
-    errorHalt("No I2C response at 0x20. Check SDA/SCL wiring and power.");
+    errorHalt("No I2C response at 0x27. Check SDA/SCL wiring and power.");
   }
 
   // Retry MCP init
   bool mcpReady = false;
   for (int i = 0; i < 5; i++) {
-    if (mcp.begin_I2C()) {
+    if (mcp.begin_I2C(0x27)) {
       mcpReady = true;
       break;
     }
-    Serial.print("⚠️ MCP23017 init failed (attempt ");
+    Serial.print("\xE2\x9A\xA0 MCP23017 init failed (attempt ");
     Serial.print(i + 1);
     Serial.println("), retrying...");
     delay(500);
@@ -66,7 +66,7 @@ void setup() {
   if (!mcpReady) {
     errorHalt("MCP23017 not detected after multiple attempts.");
   } else {
-    Serial.println("✅ MCP23017 detected.");
+    Serial.println("\xE2\x9C\x85 MCP23017 detected.");
   }
 
   // Setup motor direction pins
@@ -86,9 +86,9 @@ void setup() {
   }
 
   // Sanity check PWM pins
-  if (digitalPinToTimer(MOTOR1_PWM) == NOT_ON_TIMER) Serial.println("⚠️ Warning: MOTOR1_PWM is not a PWM pin.");
-  if (digitalPinToTimer(MOTOR2_PWM) == NOT_ON_TIMER) Serial.println("⚠️ Warning: MOTOR2_PWM is not a PWM pin.");
-  if (digitalPinToTimer(MOTOR3_PWM) == NOT_ON_TIMER) Serial.println("⚠️ Warning: MOTOR3_PWM is not a PWM pin.");
+  if (digitalPinToTimer(MOTOR1_PWM) == NOT_ON_TIMER) Serial.println("\xE2\x9A\xA0 Warning: MOTOR1_PWM is not a PWM pin.");
+  if (digitalPinToTimer(MOTOR2_PWM) == NOT_ON_TIMER) Serial.println("\xE2\x9A\xA0 Warning: MOTOR2_PWM is not a PWM pin.");
+  if (digitalPinToTimer(MOTOR3_PWM) == NOT_ON_TIMER) Serial.println("\xE2\x9A\xA0 Warning: MOTOR3_PWM is not a PWM pin.");
 
   // Setup motor speed pins
   pinMode(MOTOR1_PWM, OUTPUT);
@@ -109,13 +109,13 @@ void setup() {
   // Attach interrupt for Encoder 1
   int encInterrupt = digitalPinToInterrupt(ENC1_A);
   if (encInterrupt == NOT_AN_INTERRUPT) {
-    Serial.println("⚠️ WARNING: ENC1_A is not an interrupt-capable pin.");
+    Serial.println("\xE2\x9A\xA0 WARNING: ENC1_A is not an interrupt-capable pin.");
   } else {
     attachInterrupt(encInterrupt, encoder1ISR, CHANGE);
-    Serial.println("✅ Encoder 1 ISR attached.");
+    Serial.println("\xE2\x9C\x85 Encoder 1 ISR attached.");
   }
 
-  Serial.println("✅ Arduino ready. Waiting for commands...");
+  Serial.println("\xE2\x9C\x85 Arduino ready. Waiting for commands...");
 }
 
 void loop() {
@@ -137,12 +137,12 @@ void handleCommand(String cmd) {
     setMotor(M1_IN1, M1_IN2, MOTOR1_PWM, true, 191);
     setMotor(M2_IN1, M2_IN2, MOTOR2_PWM, true, 191);
     setMotor(M3_IN1, M3_IN2, MOTOR3_PWM, true, 191);
-    Serial.println("➡️ Motors set to FORWARD");
+    Serial.println("\xE2\x9E\xA1 Motors set to FORWARD");
   } else if (cmd == "backward") {
     setMotor(M1_IN1, M1_IN2, MOTOR1_PWM, false, 191);
     setMotor(M2_IN1, M2_IN2, MOTOR2_PWM, false, 191);
     setMotor(M3_IN1, M3_IN2, MOTOR3_PWM, false, 191);
-    Serial.println("⬅️ Motors set to BACKWARD");
+    Serial.println("\xE2\xAC\x85 Motors set to BACKWARD");
   } else if (cmd == "stop") {
     analogWrite(MOTOR1_PWM, 0);
     analogWrite(MOTOR2_PWM, 0);
@@ -161,7 +161,7 @@ void handleCommand(String cmd) {
 // =================== Motor Control ===================
 void setMotor(int in1, int in2, int pwmPin, bool forward, int speed) {
   if (speed < 0 || speed > 255) {
-    Serial.println("⚠️ Invalid speed value!");
+    Serial.println("\xE2\x9A\xA0 Invalid speed value!");
     return;
   }
 
