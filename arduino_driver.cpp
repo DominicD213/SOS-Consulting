@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include "Adafruit_MCP23X17.h"
+#include <avr/wdt.h>  // Optional: For watchdog-style safety if desired
 
 Adafruit_MCP23X17 mcp;
 
@@ -29,16 +30,41 @@ volatile long encoder1Count = 0;
 long encoder2Count = 0;
 long encoder3Count = 0;
 
+// ========= Centralized Error Handler =========
+void errorHalt(const String& msg) {
+  Serial.print("Error");
+  Serial.println(msg);
+  while (true);
+}
+
 void setup() {
   Serial.begin(9600);
+  Serial.setTimeout(500);
   delay(500);  // Wait for Serial to initialize
 
-  Serial.println("Initializing...");
+  Serial.println("🔧 Initializing...");
 
+  // I2C check
   Wire.begin();
-  if (!mcp.begin_I2C()) {
-    Serial.println("❌ ERROR: MCP23017 not detected. Check wiring and I2C address.");
-    while (true); // halt
+  Wire.beginTransmission(0x20); // MCP23017 default address
+  if (Wire.endTransmission() != 0) {
+    errorHalt("No I2C response at 0x20. Check SDA/SCL wiring and power.");
+  }
+
+  // Retry MCP init
+  bool mcpReady = false;
+  for (int i = 0; i < 5; i++) {
+    if (mcp.begin_I2C()) {
+      mcpReady = true;
+      break;
+    }
+    Serial.print("⚠️ MCP23017 init failed (attempt ");
+    Serial.print(i + 1);
+    Serial.println("), retrying...");
+    delay(500);
+  }
+  if (!mcpReady) {
+    errorHalt("MCP23017 not detected after multiple attempts.");
   } else {
     Serial.println("✅ MCP23017 detected.");
   }
@@ -48,7 +74,21 @@ void setup() {
   for (int i = 0; i < 6; i++) {
     mcp.pinMode(dirPins[i], OUTPUT);
     mcp.digitalWrite(dirPins[i], LOW);  // default low
+
+    // Optional: test read-back
+    mcp.digitalWrite(dirPins[i], HIGH);
+    delay(10);
+    if (mcp.digitalRead(dirPins[i]) != HIGH) {
+      Serial.print(" MCP23017 pin test failed for pin ");
+      Serial.println(dirPins[i]);
+    }
+    mcp.digitalWrite(dirPins[i], LOW); // reset
   }
+
+  // Sanity check PWM pins
+  if (digitalPinToTimer(MOTOR1_PWM) == NOT_ON_TIMER) Serial.println("⚠️ Warning: MOTOR1_PWM is not a PWM pin.");
+  if (digitalPinToTimer(MOTOR2_PWM) == NOT_ON_TIMER) Serial.println("⚠️ Warning: MOTOR2_PWM is not a PWM pin.");
+  if (digitalPinToTimer(MOTOR3_PWM) == NOT_ON_TIMER) Serial.println("⚠️ Warning: MOTOR3_PWM is not a PWM pin.");
 
   // Setup motor speed pins
   pinMode(MOTOR1_PWM, OUTPUT);
@@ -107,13 +147,13 @@ void handleCommand(String cmd) {
     analogWrite(MOTOR1_PWM, 0);
     analogWrite(MOTOR2_PWM, 0);
     analogWrite(MOTOR3_PWM, 0);
-    Serial.println("🛑 Motors STOPPED");
+    Serial.println(" Motors STOPPED");
   } else if (cmd == "?") {
     Serial.print("Encoder1: "); Serial.println(encoder1Count);
     Serial.print("Encoder2: "); Serial.println(encoder2Count);
     Serial.print("Encoder3: "); Serial.println(encoder3Count);
   } else {
-    Serial.print("❓ Unknown command: ");
+    Serial.print(" Unknown command: ");
     Serial.println(cmd);
   }
 }
