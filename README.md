@@ -1,3 +1,3 @@
 SOS Consulting Website
-  To Be upadated
+  To Be updated
   
