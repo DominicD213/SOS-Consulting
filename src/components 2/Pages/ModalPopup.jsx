@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from './../Common/Header';
-import Footer from './../Common/Footer';
-import Banner from './../Elements/Banner';
-import ShortcodesNav from './../Elements/ShortcodesNav';
+import Header from '../Common/Header';
+import Footer from '../Common/Footer';
+import Banner from '../Elements/Banner';
+import ShortcodesNav from '../Elements/ShortcodesNav';
 
 var bnrimg = require('./../../images/banner/1.jpg');
 

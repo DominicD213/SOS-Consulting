@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Header from './../Common/Header';
-import Footer from './../Common/Footer';
-import Banner from './../Elements/Banner';
+import Header from '../Common/Header';
+import Footer from '../Common/Footer';
+import Banner from '../Elements/Banner';
 
 var bnrimg = require('./../../images/banner/1.jpg');
 
