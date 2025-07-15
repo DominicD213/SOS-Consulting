@@ -5,14 +5,14 @@ const teamMembers = [
     {
         image: require('../../images/gallery/portrait/Daryl_single.jpg'),
         membername: 'Daryl Rodriguez',
-        position: 'Founder &amp; Chief Executive Officer, SOS Consulting',
-        description:"Timothy Alex Foster is the Co-Owner and CFO of SOS Consulting, bringing over five years of experience in construction project management, insurance negotiation, and sales leadership. With a background in Finance and Economics, he has generated over $3 million in roofing restoration sales and is known for building high-performing teams that deliver results with integrity and precision."
+        position: 'Founder & Chief Executive Officer, SOS Consulting',
+        description:"Daryl Rodriguez is the Founder and CEO of SOS Consulting, leveraging over a decade of U.S. Marine Corps leadership and two years in the roofing industry to drive strategy, operations, and execution. Currently pursuing his MBA in Operational Management, Daryl leads with discipline, community-focused values, and a mission-driven approach to solving real-world problems."
     },
     {
         image: require('../../images/gallery/portrait/Foster_single.jpg'),
         membername: 'Timothy Alex Foster',
         position: 'Co-Owner & Chief Financial Officer,',
-        description:"Daryl Rodriguez is the Founder and CEO of SOS Consulting, leveraging over a decade of U.S. Marine Corps leadership and two years in the roofing industry to drive strategy, operations, and execution. Currently pursuing his MBA in Operational Management, Daryl leads with discipline, community-focused values, and a mission-driven approach to solving real-world problems."
+        description:"Timothy Alex Foster is the Co-Owner and CFO of SOS Consulting, bringing over five years of experience in construction project management, insurance negotiation, and sales leadership. With a background in Finance and Economics, he has generated over $3 million in roofing restoration sales and is known for building high-performing teams that deliver results with integrity and precision."
     },
 ]
 

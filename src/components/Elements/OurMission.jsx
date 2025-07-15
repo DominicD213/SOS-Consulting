@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import emailjs from 'emailjs-com';
 
 var img1 = require('./../../images/left-men.png');
@@ -79,7 +78,7 @@ class OurMission extends React.Component {
       <>
         <div
           className="section-full mobile-page-padding mission-outer-section p-t80 p-b30 bg-gray bg-no-repeat bg-right-center"
-          style={{ backgroundImage: `url(${img1}), url(${img2})` }}
+          style={{ backgroundImage: `url(${img1}), url(${img2})`}}
         >
           <div className="section-content">
             <div className="container">
@@ -98,7 +97,7 @@ class OurMission extends React.Component {
                 <div className="col-md-4 col-sm-6">
                   <div
                     className="mission-left bg-white m-b30 p-a30 bg-no-repeat bg-bottom-left"
-                    style={{ backgroundImage: `url(${img3})` }}
+                    style={{ backgroundImage: `url(${img3})`, height: "46.2rem" }}
                   >
                     <h3 className="m-t0">Proudly Rooted in Central Texas</h3>
                     <p>
@@ -106,28 +105,6 @@ class OurMission extends React.Component {
                       Small Business proudly serving Central Texas and supporting both
                       commercial and government clients.
                     </p>
-                    <ul className="list-angle-right anchor-line">
-                      <li>
-                        <NavLink to={'/services'}>Construction Management</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to={'/services'}>Pre Construction Services</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to={'/services'}>Contract Administration</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to={'/services'}>Implementation</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to={'/services'}>Leed consultation</NavLink>
-                      </li>
-                    </ul>
-                    <div className="text-right">
-                      <NavLink to="/about" className="site-button-link" data-hover="Read More">
-                        Read More <i className="fa fa-angle-right arrow-animation" />
-                      </NavLink>
-                    </div>
                   </div>
                 </div>
                 <div className="col-md-4 col-sm-6">

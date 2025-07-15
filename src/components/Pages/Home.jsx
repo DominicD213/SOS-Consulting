@@ -5,8 +5,6 @@ import Slider from '../Elements/Slider';
 import Specialization from '../Elements/Specialization';
 import About from '../Elements/About';
 import OurValue from '../Elements/OurValue';
-import OurMission from '../Elements/OurMission';
-import OurServices from '../Elements/OurServices';
 import Testimonials2 from '../Elements/Testimonials2';
 import Team from '../Elements/Team3';
 
@@ -20,8 +18,6 @@ class Home extends React.Component {
                     <Specialization />
                     <About />
                     <Team/>
-                    <OurMission />
-                    <OurServices />
                     <Testimonials2/>
                     <OurValue />
                 </div>

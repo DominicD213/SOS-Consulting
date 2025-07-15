@@ -39,7 +39,7 @@ class OurValue extends React.Component {
                                             <div className="mt-separator">
                                                 <h2 className="text-uppercase sep-line-one "><span className="font-weight-300 text-primary">Our</span> Value</h2>
                                             </div>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.there are many 																				                                                     variations of passages of Ipsum available,</p>
+                                            <p>At SOS Consulting, our values are built on a foundation of service, integrity, and results. As a veteran-owned business, we bring military precision, discipline, and accountability to every project. We value trust, transparency, and long-term relationships—because we don’t just build structures, we build community. From disaster recovery to full-scale construction, our hands-on leadership ensures every solution is tailored, mission-focused, and delivered with excellence. Every job is more than a contract—it's a commitment to those we serve.</p>
                                         </div>
                                     </div>
                                    {/* TITLE END */}
